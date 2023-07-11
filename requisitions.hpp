@@ -6,7 +6,7 @@ class CfgWLRequisitionPresets
 		{
 			class Infantry
 			{
-				class B_Soldier_F 							{cost = 20;		requirements[]={};	};	// "Rifleman"
+				class UKRAINE_unitexample1 					{cost = 20;		requirements[]={};	};	// "Rifleman"
 				class B_soldier_PG_F						{cost = 25;		requirements[]={};	};	// "Para Trooper"
 				class B_CTRG_Soldier_tna_F					{cost = 30;		requirements[]={};	};	// "CTRG Scout"
 				class B_crew_F 								{cost = 15;		requirements[]={};	};	// "Crewman"
@@ -84,9 +84,6 @@ class CfgWLRequisitionPresets
 				class Box_NATO_WpsSpecial_F					{cost = 400;	requirements[]={};	};	// "Special Weapons [NATO]"
 				class B_supplyCrate_F						{cost = 500;	requirements[]={};	};	// "Supply Box [NATO]"
 				class Box_NATO_AmmoVeh_F					{cost = 700;	requirements[]={};	};	// "Vehicle Ammo [NATO]"
-				class B_Slingload_01_Ammo_F                 {cost = 2500;   requirements[]={};	};  // "Huron Ammo Container"
-				class B_Slingload_01_Repair_F				{cost = 2000;   requirements[]={};	};  // "Huron Repair Container"
-				class B_Slingload_01_Fuel_F					{cost = 500;    requirements[]={};	};  // "Huron Fuel Container"
 			};
 			class Defences
 			{
@@ -217,11 +214,11 @@ class CfgWLRequisitionPresets
 			{
 				class rhs_mags_crate						{cost = 50;		requirements[]={};	};	// "Basic Ammo"
 				class rhs_weapon_crate						{cost = 100;	requirements[]={};	};	// "Basic Weapons"
-				class rhx_gear_crate						{cost = 100;	requirements[]={};	};	// "Equipment"
+				class rhs_gear_crate						{cost = 100;	requirements[]={};	};	// "Equipment"
 				class rhs_spec_weapons_crate				{cost = 300;	requirements[]={};	};	// "Explosives"
 				class rhs_launcher_crate					{cost = 250;	requirements[]={};	};	// "Launchers"
 				class rhs_7ya37_1_single					{cost = 300;	requirements[]={};	};	// "Ak-74"
-				class Land_Cargo10_grey_F					{cost = 800;	requirements[]={};	};	// "Vehicle Ammo"
+				class Box_East_AmmoVeh_F					{cost = 800;	requirements[]={};	};	// "Vehicle Ammo"
 			};
 			class Defences
 			{

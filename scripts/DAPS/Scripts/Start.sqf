@@ -1,3 +1,4 @@
+exitWith {};
 sleep 3;
 
 if !(isNil "dapsExit") exitWith { systemChat "DAPS exit" };
@@ -38,7 +39,7 @@ sleep 1;
 
 
 waituntil {sleep 0.1; !isnull (findDisplay 46)};
-(findDisplay 46) displayAddEventHandler ["KeyDown", {
+(findDisplay 46) displayAddEventHandler ["KeyUp", {
 	if ((inputaction "cycleThrownItems") > 0.01) then {
         0 spawn DAPS_fnc_KeyPressed;
     };

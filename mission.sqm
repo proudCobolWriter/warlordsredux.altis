@@ -8,7 +8,7 @@ class EditorData
 	toggles=513;
 	class ItemIDProvider
 	{
-		nextID=1381;
+		nextID=1388;
 	};
 	class MarkerIDProvider
 	{
@@ -16,14 +16,14 @@ class EditorData
 	};
 	class LayerIndexProvider
 	{
-		nextID=49;
+		nextID=51;
 	};
 	class Camera
 	{
-		pos[]={4099.6011,2104.6428,2748.6736};
-		dir[]={0.19227393,-0.95767879,0.21421431};
-		up[]={0.63971436,0.28775671,0.71271342};
-		aside[]={0.74419117,-6.6313078e-008,-0.66796845};
+		pos[]={4099.3994,231.58026,4267.3794};
+		dir[]={0.2616522,-0.34504798,0.90138352};
+		up[]={0.096213073,0.93855429,0.33145106};
+		aside[]={0.96036029,-8.8846718e-008,-0.27877331};
 	};
 };
 binarizationWanted=0;
@@ -781,10 +781,10 @@ class Mission
 			dataType="Logic";
 			class PositionInfo
 			{
-				position[]={3977.5854,217.7252,3728.5};
-				angles[]={0.13909267,0.15069172,6.2272439};
+				position[]={3977.585,217.72523,3728.5};
+				angles[]={0.13908528,0.15069172,6.2272477};
 			};
-			init="this setVariable [""BIS_WL_services"", [""H""]]; ";
+			init="this setVariable [""BIS_WL_services"", [""H""]];" \n "this setVariable [""BIS_WL_canBeBase"", FALSE]; ";
 			id=1243;
 			type="Logic";
 		};
@@ -792,7 +792,7 @@ class Mission
 		{
 			dataType="Trigger";
 			position[]={3973.2993,218.64026,3728.5476};
-			angle=0.18098675;
+			angle=0.18098673;
 			class Attributes
 			{
 				sizeA=203.93916;
@@ -876,7 +876,7 @@ class Mission
 		{
 			dataType="Trigger";
 			position[]={4334.4668,236.11421,2195.2419};
-			angle=0.69273853;
+			angle=0.69273847;
 			class Attributes
 			{
 				sizeA=94.837997;
@@ -1523,7 +1523,7 @@ class Mission
 		{
 			dataType="Trigger";
 			position[]={2392.9192,258.19446,1351.3268};
-			angle=2.6515214;
+			angle=2.651521;
 			class Attributes
 			{
 				sizeA=61.061726;
@@ -1648,7 +1648,7 @@ class Mission
 		{
 			dataType="Trigger";
 			position[]={3494.8833,253.6981,1366.0258};
-			angle=0.9785307;
+			angle=0.97853059;
 			class Attributes
 			{
 				sizeA=40.019608;
@@ -1676,7 +1676,7 @@ class Mission
 		{
 			dataType="Trigger";
 			position[]={4224.4512,252.04378,1358.574};
-			angle=2.1149375;
+			angle=2.1149371;
 			class Attributes
 			{
 				sizeA=65;

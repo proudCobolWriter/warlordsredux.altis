@@ -25,7 +25,7 @@ while {alive _asset} do {
 
 						_asset selectWeapon _curWeapon;
 
-						if (_asset isKindOf "Helicopter") then {  
+						if (_asset isKindOf "Helicopter") then {
 							_asset setVariable ["BIS_WL_nextRearm", serverTime + WL_MAINTENANCE_COOLDOWN_REARM_Helicopter]; 
 						} else { 
 							if (_asset isKindOf "Plane") then {  
