@@ -1,0 +1,57 @@
+#include "Functions\warlords_constants.inc"
+#include "ui\defines.hpp"
+#include "ui\controls.hpp"
+#include "scripts\GOM\dialogs\GOM_dialog_parents.hpp"
+#include "scripts\GOM\dialogs\GOM_dialog_controls.hpp"
+
+onLoadName = "Warlords Redux 2.5.7";
+dev = "Jezuro + WSV";
+author = "Jezuro + WSV";
+
+respawn = 3;
+respawnDelay = 30;
+respawnOnStart = -1;
+
+disabledAI = 1;
+enableDebugConsole[] = {"76561198034106257", "76561198865298977"};
+allowFunctionsLog = 1;
+
+//revive settings below
+ReviveMode = 0;
+//end of revive section 
+
+//start of garbage collector
+corpseManagerMode = 0;
+wreckManagerMode = 0;
+//end of garbage collector
+
+onPauseScript[] = {BIS_fnc_WL2_onPause};
+
+class Header
+{
+	gameType = Warlords;
+	minPlayers = 1;
+	maxPlayers = 80;
+};
+
+#include "mp_security.hpp"
+#include "functions.hpp"
+
+#include "communicationMenu.hpp"
+#include "titles.hpp"
+#include "requisitions.hpp"
+#include "sounds.hpp"
+#include "hints.hpp"
+#include "briefings.hpp"
+
+class CfgUnitInsignia
+{
+	class InsigniaMrThomasM
+	{
+		displayName = "MrThomasM's Development";								// Name displayed in Arsenal
+		author = "MrThomasM";													// Author displayed in Arsenal
+		texture = "img\insignia.paa";											// Image path
+		material = "\A3\Ui_f\data\GUI\Cfg\UnitInsignia\default_insignia.rvmat";	// .rvmat path
+		textureVehicle = "";													// Does nothing, reserved for future use
+	};
+};
