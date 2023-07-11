@@ -658,7 +658,7 @@ class GOMRscListBox
 			1,
 			1,
 			1,
-			1
+			0.25
 		};
 		autoScrollEnabled = 1;
 	};

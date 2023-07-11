@@ -2,7 +2,8 @@
 
 params ["_unit", "_killer", "_instigator"];
 
-if (!(_unit isKindOf "Man") && (((serverNamespace getVariable "BIS_WL2_killRewards") getOrDefault [(typeOf _unit), 69]) == 69)) exitWith {};
+//if (!(_unit isKindOf "Man") && (((serverNamespace getVariable "BIS_WL2_killRewards") getOrDefault [(typeOf _unit), 69]) == 69)) exitWith {};
+if (!(_unit isKindOf "Man" || _unit isKindOf "Air" || _unit isKindOf "LandVehicle")) exitWith {};
 
 if (isNull _instigator) then {_instigator = (if (!isNil {(leader (_killer getVariable "BIS_WL_ownerAsset"))}) then [{(leader (_killer getVariable "BIS_WL_ownerAsset"))}, {((UAVControl vehicle _killer) # 0)}])};
 if (isNull _instigator) then {_instigator = (vehicle _killer)};
@@ -30,6 +31,25 @@ if !(isNull _instigator) then {
 				_killReward = (if (isPlayer _unit) then {75} else {40});
 			} else {
 				_killReward = (serverNamespace getVariable "BIS_WL2_killRewards") getOrDefault [(typeOf _unit), 69];
+				if (_killReward == 69) then {
+					if (_unitSide in [west, east]) then {
+						scopeName "main1";
+						private _entryOfEnemy = missionConfigFile >> "CfgWLRequisitionPresets" >> "A3ReduxAll" >> toUpper (str _unitSide);
+						{
+							private _category = _x;
+							if (isClass (_entryOfEnemy >> _category)) then {
+								{
+									if ((typeOf _unit) in (str _x)) then {
+										_killReward = round((getNumber (_x >> "cost")) * 0.20);
+										breakTo "main1";
+									};
+								} forEach ("true" configClasses (_entryOfEnemy >> _category));
+							};
+						} forEach WL_REQUISITION_CATEGORIES;
+					} else {
+						_killReward = 122;
+					};
+				};
 			};
 			if (_responsibleLeader getVariable ["MRTM_3rdPersonDisabled", false]) then {
 				_killReward = (round (_killReward * 2));

@@ -37,6 +37,7 @@ class Header
 #include "mp_security.hpp"
 #include "functions.hpp"
 
+#include "loadouts.hpp"
 #include "communicationMenu.hpp"
 #include "titles.hpp"
 #include "requisitions.hpp"
