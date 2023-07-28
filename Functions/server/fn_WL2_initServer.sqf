@@ -21,6 +21,8 @@ MRTM_spawnedSIEDU = [];
 MRTM_spawnedSIEDDI = [];
 MRTM_spawnedTripWires = [];
 MRTM_spawnedSLAMs_Ammo = [];
+MRTM_spawnedDemoCharge = [];
+MRTM_spawnedSatchel = [];
 
 missionNamespace setVariable ["imbalance", 0, true];
 
@@ -43,8 +45,6 @@ CIVILIAN setFriend [RESISTANCE, 1];
 WEST setFriend [CIVILIAN, 1];
 EAST setFriend [CIVILIAN, 1];
 RESISTANCE setFriend [CIVILIAN, 1];
-
-radioChannelCreate [[1,0.4,1,1], "Aircraft channel", "%UNIT_VEH_NAME", [], true];
 
 "server" call BIS_fnc_WL2_varsInit;
 
@@ -170,6 +170,7 @@ setTimeMultiplier 3;
 	_router setDir 97.622;
 	private _phone = createSimpleObject ["Land_IPPhone_01_sand_F", [4190.71,20097.5,317.647]];
 	_phone setDir 40.497;
+	_phone setObjectTextureGlobal [1, "img\rick.paa"];
 	if ((random 1) < 0.4) then {
 		private _car = createVehicle ["C_Offroad_01_comms_F", [4200.52,20100.4,-0.0614624], [], 0, "NONE"];
 		_car setDir 145;

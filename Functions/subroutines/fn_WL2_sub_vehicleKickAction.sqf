@@ -1,7 +1,7 @@
 params ["_asset"];
 
 _asset addAction [
-	localize "STR_A3_WL_action_kick_players_vehicle",
+	"Kick players",
 	{
 		_this params ["_asset", "_caller", "_actionID"];
 		{

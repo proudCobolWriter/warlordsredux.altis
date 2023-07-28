@@ -1,30 +1,55 @@
 #include "..\warlords_constants.inc"
 
-//_location1 = createLocation ["NameLocal", [12293.5,8890.99,0.00144958], 20, 20];
-//_location1 setText "Skopos Base";
+_location1 = createLocation ["NameLocal", [12293.5,8890.99,0.00144958], 20, 20];
+_location1 setText "Skopos Base";
+
+_location2 = createLocation ["NameLocal", [2682.61,22089.7,0.00142598], 20, 20];
+_location2 setText "Bomos";
+
+_location3 = createLocation ["NameLocal", [9200.32,21567.7,0.00141716], 20, 20];
+_location3 setText "Ammolofi Airfield";
+
+_location4 = createLocation ["NameLocal", [8214.26,10886.3,0.00186157], 20, 20];
+_location4 setText "Zaros Solar";
+
+_location5 = createLocation ["NameLocal", [20649.6,15646.5,0.00144196], 20, 20];
+_location5 setText "Nifi Solar";
+
+_location6 = createLocation ["NameLocal", [21841.1,20987.2,0.00139046], 20, 20];
+_location6 setText "Ghost Hotel";
+
+_location7 = createLocation ["NameLocal", [20957.7,19266.7,0.0012331], 20, 20];
+_location7 setText "Georgios Base";
+
+_location8 = createLocation ["NameLocal", [23870.8,23747.5,0.00155449], 20, 20];
+_location8 setText "Sideras";
+
+_location9 = createLocation ["NameLocal", [17428.3,13158,0.00154591], 20, 20];
+_location9 setText "Pyrgos Base";
+
+_location10 = createLocation ["NameLocal", [14282,13018.3,0.00122261], 20, 20];
+_location10 setText "Sagonisi Base";
+
+_location11 = createLocation ["NameLocal", [20977.8,7358.11,0.00152588], 20, 20];
+_location11 setText "Selekano Airbase";
+
+_location12 = createLocation ["NameLocal", [3363.47,12621,0.00150859], 20, 20];
+_location12 setText "Kavala Beach";
+
+_location13 = createLocation ["NameLocal", [12738.2,16531.8,0.000343323], 20, 20];
+_location13 setText "Lakka Factory";
+
+_location13 = createLocation ["NameLocal", [15152.4,17273.3,0.00146675], 20, 20];
+_location13 setText "Compound";
+
+_location13 = createLocation ["NameLocal", [23582.1,21097.6,0.0018158], 20, 20];
+_location13 setText "Nidasos Base";
+
+_location14 = createLocation ["NameLocal", [23128.7,18689.5,0.00143886], 20, 20];
+_location14 setText "Salt Flats";
 
 
 
-
-private _allLocationTypes = [];
-"_allLocationTypes pushBack configName _x" configClasses (configFile >> "CfgLocationTypes");
-
-clampNum = {
-	params ["_x", "_min", "_max"];
-
-	if (_x > _max) then {
-		_max
-	} else {
-		if (_x < _min) then { _min } else { _x };
-	};
-};
-
-getZoneValue = {
-	_area = _this;
-	_area params ["_a", "_b", "_angle", "_isRectangle"];
-	_size = _a * _b * (if (_isRectangle) then {4} else {pi});
-	[round (_size / WL_WTK_SECTOR_VALUE_DIVIDER), 0, 45] call clampNum
-};
 
 BIS_WL_sectorLinks = [];
 _i = 0;
@@ -44,14 +69,12 @@ _i = 0;
 	_sectorPos = position _sector;
 	_area = _sector getVariable "objectArea";
 	
-	if !(isServer) then {
-		if (_sector in WL_BASES) then {
-			_sector setVariable ["BIS_WL_value", BIS_WL_baseValue];
-			_sector setVariable ["BIS_WL_valueHidden", _area call getZoneValue];
-			systemChat str (_sector getVariable "BIS_WL_valueHidden");
-		} else {
-			_sector setVariable ["BIS_WL_value", _area call getZoneValue];
-		};
+	if (_sector in WL_BASES && ((_sector getVariable "BIS_WL_owner") == (side player))) then {
+		_sector setVariable ["BIS_WL_value", BIS_WL_baseValue];
+	} else {
+		_area params ["_a", "_b", "_angle", "_isRectangle"];
+		_size = _a * _b * (if (_isRectangle) then {4} else {pi});
+		_sector setVariable ["BIS_WL_value", round (_size / 13000)];
 	};
 	
 	_mrkrArea = createMarkerLocal [format ["BIS_WL_sectorMarker_%1_area", _forEachIndex], _sectorPos];
@@ -98,7 +121,7 @@ _i = 0;
 			_pos2 = position _neighbor;
 			_pairedWith pushBack _neighbor;
 			_center = [((_pos1 # 0) + (_pos2 # 0)) / 2, ((_pos1 # 1) + (_pos2 # 1)) / 2];
-			_size = (_pos1 distance2D _pos2) / 2;
+			_size = ((_pos1 distance2D _pos2) / 2) - 150;
 			_dir = _pos1 getDir _pos2;
 			_mrkr = createMarkerLocal [format ["BIS_WL_linkMrkr_%1", _i], _center];
 			_mrkr setMarkerAlphaLocal WL_CONNECTING_LINE_ALPHA_MAX;
@@ -119,7 +142,7 @@ _i = 0;
 	_name = _sector getVariable ["BIS_WL_name", ""];
 	
 	if (_name == "") then {
-		_nearLocations = nearestLocations [_sector, _allLocationTypes, 300, _sector];
+		_nearLocations = nearestLocations [_sector, ["NameLocal", "NameVillage", "NameCity", "NameCityCapital"], 300, _sector];
 		if (count _nearLocations > 0) then {
 			_location = _nearLocations # 0;
 			_name = text _location;

@@ -9,6 +9,7 @@ private _actionID = _asset addAction [
 			_asset setVariable ["dazzlerActivated", false];
 		} else {
 			_asset setVariable ["dazzlerActivated", true];
+			_asset engineOn true;
 		};
 		_asset call BIS_fnc_WL2_sub_dazzlerAction;
 	},
@@ -17,7 +18,7 @@ private _actionID = _asset addAction [
 	false,
 	false,
 	"",
-	"alive _target && (group _this) == (_target getVariable ['BIS_WL_ownerAsset', grpNull])",
+	"alive _target && {(group _this) == (_target getVariable ['BIS_WL_ownerAsset', grpNull])}",
 	30,
 	true
 ];

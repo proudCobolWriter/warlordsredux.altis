@@ -9,6 +9,7 @@ class CfgFunctions {
 			class WL2_cpBalance {};
     		class WL2_announcer {};
 			class WL2_assetMapControl {};
+			class WL2_deleteAssetFromMap {};
 			class WL2_forceGroupIconsFunctionality {};
 			class WL2_friendlyFireHandleClient {};
 			class WL2_groupIconClickHandle {};
@@ -56,7 +57,6 @@ class CfgFunctions {
 			class WL2_orderFTPodFT {};
 			class WL2_orderFTPod {};
 			class WL2_welcome {};
-			class WL2_displayCPtransfer {};
 			class WL2_betty {};
 			class WL2_rita {};
 			class WL2_mapIcons {};
@@ -67,12 +67,13 @@ class CfgFunctions {
 			class WL2_underWaterCheck {};
 			class WL2_mrtmAction {};
 			class WL2_targetResetHandleVote {};
+			class WL2_reportCheater {};
     	};
 		class Server 
 		{
     		file = "Functions\server";
     		class WL2_assetRelevanceCheck {ext = ".fsm";};
-			class WL2_incomePayoff {ext = ".fsm";};
+			class WL2_incomePayoff {};
 			class WL2_garbageCollector {};
 			class WL2_detectNewPlayers {};
 			class WL2_friendlyFireHandleServer {};
@@ -82,7 +83,6 @@ class CfgFunctions {
 			class WL2_mineLimit {};
 			class WL2_populateSector {};
 			class WL2_processRunways {};
-			class WL2_sectorsInitServer {};
 			class WL2_selectTarget {};
 			class WL2_setupNewWarlord {};
 			class WL2_targetResetHandleServer {};
@@ -94,6 +94,8 @@ class CfgFunctions {
 			class WL2_tablesSetUp {};
 			class WL2_handleClientRequest {};
 			class WL2_forfeitHandleServer {};
+			class WL2_setOwner {};
+			class WL2_createUAVCrew {};
     	};
     	class Common {
     		file = "Functions\common";
@@ -133,6 +135,35 @@ class CfgFunctions {
 			class WL2_sub_rearmAction {};
 			class WL2_sub_vehicleKickAction {};
     	};
+		class MineCleanup 
+		{
+			file = "Functions\server\mineCleanup";
+			class WL2_handleApersMine {};
+			class WL2_handleApersBoundingMineMag {};
+			class WL2_HandleApersDispenserAmmo {};
+			class WL2_HandleATMineAmmo {};
+			class WL2_handleM6SlamMineMag {};
+			class WL2_handleM6SlamMineAmmo {};
+			class WL2_handleClaymoreChargeAmmo {};
+			class WL2_HandleExplosiveSatchel {};
+			class WL2_handleExplosiveCharge {};
+			class WL2_handleLargeIEDUrban {};
+			class WL2_handleLargeIED {};
+			class WL2_handleSmallIEDUrban {};
+			class WL2_handleSmallIED {};
+			class WL2_handleApersTripWireAmmo {};
+			class WL2_handleApersTripWireMag {};
+			class WL2_handleSatchelCharge {};
+			class WL2_handleDemoCharge {};
+		};
+		class Sectors
+		{
+			file = "Functions\server\sectors";
+			class WL2_sectorsInitServer {};
+			class WL2_sectorCaptureHandle {};
+			class WL2_getVehicles {};
+			class WL2_getInfantry {};
+		};
 	};
 
 	/*******************************START OF CUSTOM CONTENT HERE****************************/
@@ -173,10 +204,10 @@ class CfgFunctions {
 		class APS 
 		{
 			file = "scripts\DAPS\Scripts\APS";
-			class APSDazzler {ext = ".fsm";};
-			class APSheavy {ext = ".fsm";};
-			class APSlight {ext = ".fsm";};
-			class APSmedium {ext = ".fsm";};
+			class APSheavy {};
+			class APSmedium {};
+			class APSlight {};
+			class APSDazzler {};
 			class Dazzler {};
 			class Generic {};
 		};
@@ -188,13 +219,11 @@ class CfgFunctions {
 			class KeyPressed {};
 			class RearmAPS {};
 			class RegisterVehicle {};
-			class CompileTypes {};
 		};
 		class MISC
 		{
 			file = "scripts\DAPS\Scripts\Misc";
 			class Active {};
-			class CanSmoke {};
 			class CountAmmo {};
 			class GetDirection {};
 			class HasCharges {};
@@ -204,8 +233,6 @@ class CfgFunctions {
 			class IsVisualGuided {};
 			class MisguideMissile {};
 			class popSmoke {};
-			class PopSmokeTurn {};
-			class React {};
 			class RelDir2 {};
 		};
 		class Report
@@ -214,16 +241,15 @@ class CfgFunctions {
 			class Report {};
 		};
 	};
-	class DIS
-	{
-		class SAM {
-			file = "scripts\DIS\SAM";
-			class getOwner {};
+	class DIS {
+		class SAM
+		{
+			file = "scripts\DIS";
 			class Frag {};
-			class IsSam {};
+			class SAMFired {};
 			class RegisterSAM {};
+			class IsSam {};
 			class SAMmaneuver {};
-			class SAMfired {};
 		};
 	};
 };

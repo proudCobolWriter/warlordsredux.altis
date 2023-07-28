@@ -22,11 +22,7 @@ if (_scanCD == 0) then {_scanCD = -1};
 	},
 	(1 call BIS_fnc_WL2_sub_purchaseMenuGetUIScale),
 	_sector getVariable "BIS_WL_name",
-	if ((_sector getVariable "BIS_WL_owner") != (side player)) then [{
-		_sector getVariable ["BIS_WL_valueHidden", _sector getVariable "BIS_WL_value"]
-	}, {
-		_sector getVariable "BIS_WL_value",
-	}],
+	_sector getVariable "BIS_WL_value",
 	localize "STR_A3_WL_unit_cp",
 	localize "STR_A3_rscmpprogress_min",
 	if (_airstrip || _helipad || _harbor) then {"<br/>"} else {""},

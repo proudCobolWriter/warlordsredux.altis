@@ -13,9 +13,7 @@ serverNamespace setVariable [format ["BIS_WL_isTransferring_%1", getPlayerUID _w
 //CP database
 private _uid = getPlayerUID _warlord;
 private _fundsDB = (serverNamespace getVariable "fundsDatabase");
-private _pFunds = ((serverNamespace getVariable "fundsDatabase") getOrDefault [_uid, 
-	if (_uid == "76561198268791393") then [{ 47500 }, { 1000 }]
-]);
+private _pFunds = ((serverNamespace getVariable "fundsDatabase") getOrDefault [_uid, 1000]);
 _fundsDB set [_uid, _pFunds];
 [(serverNamespace getVariable "fundsDatabase"), _uid] call BIS_fnc_WL2_fundsDatabaseUpdate;
 
@@ -43,13 +41,16 @@ if (isPlayer _warlord) then {
 };
 
 if !(_boundToAnotherTeam) then {
-	_respawnPos = markerPos selectRandom _markers;
-	_warlord setVehiclePosition [_respawnPos, [], 5, "NONE"];
-	
 	_friendlyFireVarName = format ["BIS_WL_%1_friendlyKillPenaltyEnd", getPlayerUID _warlord];
 	if ((missionNamespace getVariable _friendlyFireVarName) > serverTime) then {
 		(owner _warlord) publicVariableClient _friendlyFireVarName;
 	};
 
 	[_warlord] call BIS_fnc_WL2_respawnHandle;
+	
+	_respawnPos = markerPos selectRandom _markers;
+	while {_warlord distance2D _respawnPos > 300} do {
+		[_warlord, [_respawnPos, [], 10, "NONE"]] remoteExec ["setVehiclePosition", _warlord];
+		sleep 1;
+	};
 };

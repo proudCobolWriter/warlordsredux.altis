@@ -9,34 +9,23 @@ if (_class isKindOf "Man") then {
 	_assetVariable = call BIS_fnc_WL2_generateVariableName;
 	_asset setVehicleVarName _assetVariable;
 	[_asset, _assetVariable] remoteExec ["setVehicleVarName", 2];
-	[player, "orderAI", _cost] remoteExecCall ["BIS_fnc_WL2_handleClientRequest", 2];
+	[player, "orderAI", _cost] remoteExec ["BIS_fnc_WL2_handleClientRequest", 2];
 	[player, _asset] spawn BIS_fnc_WL2_newAssetHandle;
 	player setVariable ["BIS_WL_isOrdering", false, [2, clientOwner]];
 } else {
 	BIS_WL_currentSelection = WL_ID_SELECTION_DEPLOYING_DEFENCE;
 
 	_offset = [0, 8, 0];
-	_asset = createSimpleObject [_class, [0, 0, 0], true];
+	_asset = createSimpleObject [_class, (AGLToASL (player modelToWorld _offset)), true];
 
-	_asset lock true;
+	_asset setDir direction player;
+	_asset lock 2;
 	_asset allowDamage false;
-	//_asset attachTo [player, _offset];
-	//_assetPos = player modelToWorld _offset;
-	//_asset setPosATL [_assetPos select 0, _assetPos select 1, 0];
-	//_asset setDir direction player;
-	//_asset setVectorUp surfaceNormal (position _asset);
-
-	if (!isNil "WTK_vehicleHandle") then { removeMissionEventHandler ["EachFrame", WTK_vehicleHandle] };
-
-	sleep 0.15; // adjustable (there has to be a delay to avoid blowing up everything when vehicle appears)
-
-	WTK_vehicleHandle = addMissionEventHandler ["EachFrame", {
-		_thisArgs params ["_asset", "_offset"];
-		_assetPos = player modelToWorld _offset;
-		_asset setPosATL [_assetPos select 0, _assetPos select 1, 0];
-		_asset setDir direction player;
-		_asset setVectorUp surfaceNormal (position _asset);
-	}, [_asset, _offset]];
+	_asset attachTo [player, _offset];
+	_h = (position _asset) # 2;
+	detach _asset;
+	_offset_tweaked = [_offset select 0, _offset select 1, _h];
+	_asset attachTo [player, _offset_tweaked];
 
 	[player, "assembly"] call BIS_fnc_WL2_hintHandle;
 
@@ -73,7 +62,6 @@ if (_class isKindOf "Man") then {
 		if !(BIS_WL_spacePressed) then {
 			BIS_WL_backspacePressed = TRUE;
 		};
-		if (!isNil "WTK_vehicleHandle") then { removeMissionEventHandler ["EachFrame", WTK_vehicleHandle] };
 	};
 
 	waitUntil {sleep WL_TIMEOUT_MIN; BIS_WL_spacePressed || BIS_WL_backspacePressed};

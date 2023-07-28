@@ -74,8 +74,9 @@ MRTM_playKillSound = true;
 MRTM_muteVoiceInformer = false;
 MRTM_EnableRWR = true;
 MRTM_disableHint = true;
+MRTM_smallAnnouncerText = false;
 has_recieved_reward = false;
-reward_active = false;
+player setVariable ["reward_active", false];
 
 if !((side group player) in BIS_WL_competingSides) exitWith {
 	["client_init"] call BIS_fnc_endLoadingScreen;
@@ -167,18 +168,24 @@ player addEventHandler ["GetInMan", {
 		[["voiceWarningSystem", "rita"], 0, "", 25, "", false, true, false, true] call BIS_fnc_advHint;
 		0 spawn BIS_fnc_WL2_rita;
 	};
-	if (typeOf _vehicle isKindOf "Air" || (getPlayerUID player) == "76561198034106257" || (getPlayerUID player) == "76561198865298977" || name player == "Risk Division") then {
-		1 radioChannelAdd [player];
-	};
 }];
 
 player addEventHandler ["GetOutMan", {
 	params ["_unit", "_role", "_vehicle", "_turret"];
 	detach BIS_WL_enemiesCheckTrigger;
 	BIS_WL_enemiesCheckTrigger attachTo [vehicle player, [0, 0, 0]];
-	if !((getPlayerUID player) == "76561198034106257" || (getPlayerUID player) == "76561198865298977" || name player == "Risk Division") then {
-		1 radioChannelRemove [player];
+}];
+
+player addEventHandler ["InventoryOpened",{
+	params ["_unit","_container"];
+	_override = false;
+	_allUnitBackpackContainers = (player nearEntities ["Man", 50]) select {isPlayer _x} apply {backpackContainer _x};
+
+	if (_container in _allUnitBackpackContainers) then {
+		systemchat "Access denied!";
+		_override = true;
 	};
+	_override;
 }];
 
 player addEventHandler ["Killed", {
@@ -223,14 +230,10 @@ player addEventHandler ["Killed", {
 player addEventHandler ["HandleDamage", {
 	params ["_unit", "_selection", "_damage", "_source", "_projectile", "_hitIndex", "_instigator", "_hitPoint", "_directHit"];
 	_base = (([BIS_WL_base1, BIS_WL_base2] select {(_x getVariable "BIS_WL_owner") == (side group _unit)}) # 0);
-	if ((_unit inArea (_base getVariable "objectAreaComplete")) && {((_base getVariable ["BIS_WL_baseUnderAttack", false]) == false) && {((side (group _unit)) == west)}}) then {
+	if ((_unit inArea (_base getVariable "objectAreaComplete")) && {((_base getVariable ["BIS_WL_baseUnderAttack", false]) == false)}) then {
 		0;
 	} else {
-		if ((_unit inArea (_base getVariable "objectAreaComplete")) && {((_base getVariable ["BIS_WL_baseUnderAttack", false]) == false) && {((side (group _unit)) == east)}}) then {
-			0;
-		} else {
-			_damage;
-		};
+		_damage;
 	};
 }];
 
@@ -276,6 +279,15 @@ player call BIS_fnc_WL2_sub_assetAssemblyHandle;
 };
 
 0 spawn {
+	_selectedCnt = count ((groupSelectedUnits player) - [player]);
+	while {!BIS_WL_missionEnd} do {
+		waitUntil {sleep 1; count ((groupSelectedUnits player) - [player]) != _selectedCnt};
+		_selectedCnt = count ((groupSelectedUnits player) - [player]);
+		call BIS_fnc_WL2_sub_purchaseMenuRefresh;
+	};
+};
+
+0 spawn {
 	_t = serverTime + 10;
 	waitUntil {sleep WL_TIMEOUT_STANDARD; serverTime > _t && !isNull WL_TARGET_FRIENDLY};
 	sleep WL_TIMEOUT_LONG;
@@ -292,6 +304,7 @@ player call BIS_fnc_WL2_sub_assetAssemblyHandle;
 0 spawn BIS_fnc_WL2_purchaseMenuOpeningHandle;
 0 spawn BIS_fnc_WL2_assetMapControl;
 0 spawn BIS_fnc_WL2_mapIcons;
+[] execVM "scripts\GF_Earplugs\GF_Earplugs.sqf";
 
 0 spawn {
 	_t = serverTime + 10;
@@ -320,10 +333,6 @@ player call BIS_fnc_WL2_sub_assetAssemblyHandle;
 		};
 		_e;
 	}];
-};
-
-if ((getPlayerUID player) == "76561198034106257"|| (getPlayerUID player) == "76561198865298977" || name player == "Risk Division") then {
-	1 radioChannelAdd [player];
 };
 
 ["client_init"] call BIS_fnc_endLoadingScreen;

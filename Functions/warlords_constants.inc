@@ -54,8 +54,6 @@
 #define WL_TARGET_ENEMY (missionNamespace getVariable format ["BIS_WL_currentTarget_%1", BIS_WL_enemySide])
 #define WL_CONTROL_MAP (uiNamespace getVariable ["BIS_WL_mapControl", controlNull])
 #define WL_PLAYER_REQUISITION_LIST (missionNamespace getVariable format ["BIS_WL_purchasable_%1", BIS_WL_playerSide])
-#define WL_REQUISITION_CATEGORIES ["Infantry", "Vehicles", "Aircraft", "Defences", "Gear", "Strategy"]
+#define WL_REQUISITION_CATEGORIES ["Infantry", "Vehicles", "Aircraft", "Naval", "Defences", "Gear", "Strategy"]
 #define WL_PLAYER_VEHS (missionNamespace getVariable [format ["BIS_WL_%1_ownedVehicles", getPlayerUID player], []])
 #define WL_BASES [BIS_WL_base1, BIS_WL_base2]
-#define WL_WTK_SPAWN_AIR false
-#define WL_WTK_SECTOR_VALUE_DIVIDER 3500

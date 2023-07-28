@@ -21,10 +21,6 @@ class CfgRemoteExec {
 			allowedTargets = 2;
 		};
 
-		class DIS_fnc_SAMmaneuver {
-			allowedTargets = 2;
-		};
-
 		class KS_fnc_unflipVehicle {
 			allowedTargets = 2;
 		};
@@ -39,10 +35,6 @@ class CfgRemoteExec {
 		};
 
 		class BIS_fnc_WL2_orderArsenal {
-			allowedTargets = 1;
-		};
-
-		class BIS_fnc_WL2_displayCPtransfer {
 			allowedTargets = 1;
 		};
 
@@ -62,15 +54,15 @@ class CfgRemoteExec {
 			allowedTargets = 1;
 		};
 
-		class DAPS_fnc_PopSmokeTurn {
-			allowedTargets = 1;
-		};
-
 		class BIS_fnc_WL2_orderSavedLoadout {
 			allowedTargets = 1;
 		};
 
 		class BIS_fnc_WL2_orderLastLoadout {
+			allowedTargets = 1;
+		};
+
+		class BIS_fnc_WL2_reportCheater {
 			allowedTargets = 1;
 		};
 
@@ -99,6 +91,14 @@ class CfgRemoteExec {
 			allowedTargets = 0;
 		};
 
+		class DIS_fnc_SAMFired {
+			allowedTargets = 0;
+		};
+
+		class BIS_fnc_fire {
+			allowedTargets = 0;
+		};
+
 		//Don't touch
 		class BIS_fnc_effectKilledAirDestruction {allowedTargets = 0; jip = 0;};
 		class BIS_fnc_effectKilledSecondaries {allowedTargets = 0; jip = 0;};
@@ -113,9 +113,6 @@ class CfgRemoteExec {
 		mode = 1; // Whitelist only
 
 		//Server only
-		class setVehiclePosition {
-			allowedTargets = 2;
-		};
 
 		//Client only
 
@@ -163,6 +160,14 @@ class CfgRemoteExec {
 		class hint {
 			allowedTargets = 0;
 		};
+
+		class lock {
+			allowedTargets = 0;
+		};
+
+		class commandChat {
+			allowedTargets = 0;
+		};
 	};
 };
 
@@ -204,14 +209,14 @@ class CfgDisabledCommands {
 		class SYNTAX1 {
 			targets[] = {1,0,1};
 			args[] = {{}, {"STRING"}};
-		};		
+		};
 	};
 
 	class PUBLICVARIABLECLIENT {
 		class SYNTAX1 {
 			targets[] = {1,0,1};
 			args[] = {{"SCALAR"}, {"STRING"}};
-		};	
+		};
 	};
 
 	//Velocity
@@ -305,7 +310,7 @@ class CfgDisabledCommands {
 		class SYNTAX1
 		{
 			targets[] = {1,0,1};
-			args[] = {{"OBJECT"},{"ARRAY"}};
+			args[] = {{"OBJECT"},{"ARRAY"}};			
 		};
 	};
 };

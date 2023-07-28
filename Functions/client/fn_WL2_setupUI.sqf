@@ -170,15 +170,6 @@ switch (_displayClass) do {
 			};
 		}];
 		
-		_myDisplay spawn {
-			_selectedCnt = count ((groupSelectedUnits player) - [player]);
-			while {!isNull _this} do {
-				waitUntil {sleep WL_TIMEOUT_MIN; count ((groupSelectedUnits player) - [player]) != _selectedCnt};
-				_selectedCnt = count ((groupSelectedUnits player) - [player]);
-				call BIS_fnc_WL2_sub_purchaseMenuRefresh;
-			};
-		};
-		
 		_purchase_background = _myDisplay ctrlCreate ["RscText", -1];
 		_purchase_background_1 = _myDisplay ctrlCreate ["RscText", -1];
 		_purchase_background_2 = _myDisplay ctrlCreate ["RscText", -1];
@@ -298,6 +289,7 @@ switch (_displayClass) do {
 			localize "STR_A3_cfgmarkers_nato_inf",
 			localize "STR_dn_vehicles",
 			localize "STR_A3_WL_menu_aircraft",
+			localize "STR_A3_rscdisplaygarage_tab_naval",
 			localize "STR_A3_WL_menu_defences",
 			localize "STR_A3_rscdisplaywelcome_exp_parb_list4_title",
 			localize "STR_A3_WL_menu_strategy"
@@ -360,34 +352,33 @@ switch (_displayClass) do {
 					"_displayName",
 					"_picture",
 					"_text",
-					"_offset",
-					"_WTK_skin"
+					"_offset"
 				];
 				
 				_cost = _purchase_items lbValue lbCurSel _purchase_items;
 				_offset = call compile _offset;
 				_requirements = call compile _requirements;
 				switch (_className) do {
-					case "Arsenal": {if (isNull (findDisplay 602)) then {["RequestMenu_close"] call BIS_fnc_WL2_setupUI; [player, "orderArsenal", BIS_WL_arsenalCost, [], player] remoteExecCall ["BIS_fnc_WL2_handleClientRequest", 2]} else {playSound "AddItemFailed"}};
-					case "LastLoadout": {["RequestMenu_close"] call BIS_fnc_WL2_setupUI; [player, "lastLoadout", BIS_WL_lastLoadoutCost, [], player] remoteExecCall ["BIS_fnc_WL2_handleClientRequest", 2]};
+					case "Arsenal": {if (isNull (findDisplay 602)) then {["RequestMenu_close"] call BIS_fnc_WL2_setupUI; [player, "orderArsenal", BIS_WL_arsenalCost, [], player] remoteExec ["BIS_fnc_WL2_handleClientRequest", 2]} else {playSound "AddItemFailed"}};
+					case "LastLoadout": {["RequestMenu_close"] call BIS_fnc_WL2_setupUI; [player, "lastLoadout", BIS_WL_lastLoadoutCost, [], player] remoteExec ["BIS_fnc_WL2_handleClientRequest", 2]};
 					case "SaveLoadout": {"save" call BIS_fnc_WL2_orderSavedLoadout};
-					case "SavedLoadout": {["RequestMenu_close"] call BIS_fnc_WL2_setupUI; [player, "savedLoadout", BIS_WL_savedLoadoutCost, [], player] remoteExecCall ["BIS_fnc_WL2_handleClientRequest", 2]};
+					case "SavedLoadout": {["RequestMenu_close"] call BIS_fnc_WL2_setupUI; [player, "savedLoadout", BIS_WL_savedLoadoutCost, [], player] remoteExec ["BIS_fnc_WL2_handleClientRequest", 2]};
 					case "Scan": {0 spawn BIS_fnc_WL2_orderSectorScan};
 					case "FTSeized": {FALSE spawn BIS_fnc_WL2_orderFastTravel};
 					case "FTConflict": {TRUE spawn BIS_fnc_WL2_orderFastTravel};
-					case "FundsTransfer": {call BIS_fnc_WL2_orderFundsTransfer; [player, "fundsTransferBill"] remoteExecCall ["BIS_fnc_WL2_handleClientRequest", 2]};
-					case "TargetReset": {["RequestMenu_close"] call BIS_fnc_WL2_setupUI; [player, "targetReset", 500, [0,0,0], 0, false] remoteExecCall ["BIS_fnc_WL2_handleClientRequest", 2]};
+					case "FundsTransfer": {call BIS_fnc_WL2_orderFundsTransfer; [player, "fundsTransferBill"] remoteExec ["BIS_fnc_WL2_handleClientRequest", 2]};
+					case "TargetReset": {["RequestMenu_close"] call BIS_fnc_WL2_setupUI; [player, "targetReset", 500, [0,0,0], 0, false] remoteExec ["BIS_fnc_WL2_handleClientRequest", 2]};
 					case "forfeitVote": {0 spawn BIS_fnc_WL2_orderForfeit};
 					case "LockVehicles": {
 						{
 							if ((!(typeOf _x == "B_Truck_01_medical_F")) && {!(typeOf _x == "O_Truck_03_medical_F")}) then {
-								_x lock true;
+								_x lock 2;
 								_x setUserActionText [_x getVariable ["BIS_WL_lockActionID", -1], format ["<t color = '%1'>%2</t>", if ((locked _x) == 2) then {"#4bff58"} else {"#ff4b4b"}, if ((locked _x) == 2) then {localize "STR_A3_cfgvehicles_miscunlock_f_0"} else {localize "STR_A3_cfgvehicles_misclock_f_0"}]];
 							};
 						} forEach (WL_PLAYER_VEHS select {alive _x}); 
 						[toUpper localize "STR_A3_WL_feature_lock_all_msg"] spawn BIS_fnc_WL2_smoothText
 					};
-					case "UnlockVehicles": {{_x lock FALSE; _x setUserActionText [_x getVariable ["BIS_WL_lockActionID", -1], format ["<t color = '%1'>%2</t>", if ((locked _x) == 2) then {"#4bff58"} else {"#ff4b4b"}, if ((locked _x) == 2) then {localize "STR_A3_cfgvehicles_miscunlock_f_0"} else {localize "STR_A3_cfgvehicles_misclock_f_0"}]]} forEach (WL_PLAYER_VEHS select {alive _x}); [toUpper localize "STR_A3_WL_feature_unlock_all_msg"] spawn BIS_fnc_WL2_smoothText};
+					case "UnlockVehicles": {{_x lock 0; _x setUserActionText [_x getVariable ["BIS_WL_lockActionID", -1], format ["<t color = '%1'>%2</t>", if ((locked _x) == 2) then {"#4bff58"} else {"#ff4b4b"}, if ((locked _x) == 2) then {localize "STR_A3_cfgvehicles_miscunlock_f_0"} else {localize "STR_A3_cfgvehicles_misclock_f_0"}]]} forEach (WL_PLAYER_VEHS select {alive _x}); [toUpper localize "STR_A3_WL_feature_unlock_all_msg"] spawn BIS_fnc_WL2_smoothText};
 					case "RemoveUnits": {
 						{
 							deleteVehicle _x;
@@ -446,7 +437,7 @@ switch (_displayClass) do {
 					_targetFunds = ((missionNamespace getVariable "fundsDatabaseClients") get (getPlayerUID _target));
 					_maxTransfer = BIS_WL_maxCP - _targetFunds;
 					_finalTransfer = (_amount min _maxTransfer) max 0;
-					[player, "fundsTransfer", _finalTransfer, [], _target] remoteExecCall ["BIS_fnc_WL2_handleClientRequest", 2];
+					[player, "fundsTransfer", _finalTransfer, [], _target] remoteExec ["BIS_fnc_WL2_handleClientRequest", 2];
 					for [{_i = 100}, {_i <= 114}, {_i = _i + 1}] do {
 						(_display displayCtrl _i) ctrlEnable TRUE;
 					};
@@ -491,7 +482,7 @@ switch (_displayClass) do {
 				(_display displayCtrl _i) ctrlSetFade 1;
 				(_display displayCtrl _i) ctrlCommit 0;
 			};
-			[player, "fundsTransferCancel"] remoteExecCall ["BIS_fnc_WL2_handleClientRequest", 2];
+			[player, "fundsTransferCancel"] remoteExec ["BIS_fnc_WL2_handleClientRequest", 2];
 			playSound "AddItemFailed";
 		}];
 		((uiNamespace getVariable ["BIS_WL_purchaseMenuLastSelection", [0, 0, 0]]) # 0) call BIS_fnc_WL2_sub_purchaseMenuSetItemsList;
